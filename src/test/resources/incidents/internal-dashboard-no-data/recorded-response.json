@@ -1,0 +1,20 @@
+{
+  "title": "Fleet Overview Grafana dashboard showed no data after monitoring VPC migration",
+  "summary": "The internal Fleet Overview dashboard displayed 'No data' for about 90 minutes because it hardcoded the old Prometheus datasource URL, which changed in the monitoring VPC migration. Alerting was unaffected and there was no customer impact.",
+  "severity": "SEV4",
+  "severityRationale": "Internal-only dashboard; alerting kept working and no customers were affected.",
+  "impact": "Ops engineers could not use the Fleet Overview dashboard from roughly 3pm to 4:30pm.",
+  "affectedSystems": ["Grafana Fleet Overview dashboard", "Prometheus datasource"],
+  "detection": null,
+  "timeline": [
+    {"time": "3pm", "description": "Fleet Overview panels began showing 'No data'"},
+    {"time": "4:30pm", "description": "Dashboard switched to the default datasource and data returned"}
+  ],
+  "rootCauses": ["Dashboard hardcoded the old Prometheus datasource URL, which changed during the monitoring VPC migration"],
+  "contributingFactors": [],
+  "resolution": "Jen updated the dashboard to use the default datasource.",
+  "actionItems": [
+    {"description": "Find other dashboards with hardcoded datasource URLs", "owner": null, "priority": "MEDIUM"}
+  ],
+  "openQuestions": ["How was the problem noticed?"]
+}

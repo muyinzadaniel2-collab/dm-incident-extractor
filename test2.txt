@@ -1,0 +1,29 @@
+Sarah — 14:03
+Anyone else seeing increased latency on checkout?
+
+James — 14:05
+Yeah, p95 jumped from 200ms to almost 4 seconds.
+
+Sarah — 14:07
+Started around 13:55 according to Datadog.
+
+David — 14:10
+We deployed checkout-service v2.18 at 13:50.
+
+James — 14:12
+Could be the deploy. Checking database connections.
+
+David — 14:18
+Found it. New version is opening too many DB connections.
+
+Sarah — 14:20
+Let's rollback.
+
+David — 14:27
+Rollback complete.
+
+James — 14:32
+Latency back to normal. p95 around 210ms.
+
+Sarah — 14:35
+Incident resolved.

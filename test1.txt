@@ -1,0 +1,2 @@
+Mike — 09:42
+hey, seeing some weird errors on the payments service since this morning. not sure what's going on but a few requests are failing. might be related to yesterday's deploy. looking into it.

@@ -1,0 +1,8 @@
+{
+  "severity": ["UNKNOWN", "SEV3"],
+  "affectedSystems": ["auth"],
+  "resolution": ["restart"],
+  "actionItems": ["log"],
+  "maxRootCauses": 0,
+  "expectOpenQuestions": true
+}

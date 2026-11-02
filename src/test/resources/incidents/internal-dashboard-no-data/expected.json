@@ -1,0 +1,7 @@
+{
+  "severity": ["SEV4"],
+  "affectedSystems": ["grafana|dashboard|fleet overview"],
+  "rootCauses": ["datasource|url"],
+  "resolution": ["default"],
+  "actionItems": ["hardcoded|datasource"]
+}

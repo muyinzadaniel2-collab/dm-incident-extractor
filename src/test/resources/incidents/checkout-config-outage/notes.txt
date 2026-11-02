@@ -1,0 +1,16 @@
+#inc-checkout slack export, cleaned up a bit
+
+14:02 deploy-bot: config-service pushed checkout-api config v4.12 to prod
+14:05 PagerDuty: checkout-api 5xx rate > 50%
+14:06 anna: looking. every checkout request is failing, customers can't pay at all
+14:11 anna: checkout-api pods crashlooping, logs say "db pool size must be > 0"
+14:15 marco: v4.12 set db.pool.max to 0, typo in the template (meant 40)
+14:24 marco: rolled back to v4.11
+14:31 anna: pods healthy, error rate back to normal
+14:42 anna: confirmed orders flowing again. closing out.
+
+notes from retro:
+- config template has no validation, CI happily shipped pool size 0
+- the canary stage is skipped for config-only changes so it went to 100% at once
+- platform team to add schema validation for checkout config in CI
+- payments team to check whether any orders were double charged during retries

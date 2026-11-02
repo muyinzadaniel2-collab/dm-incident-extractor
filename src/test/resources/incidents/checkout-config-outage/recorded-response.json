@@ -1,0 +1,30 @@
+{
+  "title": "Checkout API outage caused by invalid DB pool size in config v4.12",
+  "summary": "A config push set the checkout-api database pool size to 0, causing pods to crashloop and every checkout request to fail. Customers could not pay for about 25 minutes until the config was rolled back to v4.11.",
+  "severity": "SEV1",
+  "severityRationale": "All checkout requests failed, so no customer could complete a payment.",
+  "impact": "100% of checkout requests failed from roughly 14:02 to 14:31; customers could not pay.",
+  "affectedSystems": ["checkout-api", "config-service"],
+  "detection": "PagerDuty alert on checkout-api 5xx rate above 50%.",
+  "timeline": [
+    {"time": "14:02", "description": "config-service pushed checkout-api config v4.12 to prod"},
+    {"time": "14:05", "description": "PagerDuty alert fired for checkout-api 5xx rate > 50%"},
+    {"time": "14:11", "description": "checkout-api pods found crashlooping with 'db pool size must be > 0'"},
+    {"time": "14:15", "description": "Identified db.pool.max set to 0 by a template typo"},
+    {"time": "14:24", "description": "Config rolled back to v4.11"},
+    {"time": "14:31", "description": "Pods healthy and error rate back to normal"},
+    {"time": "14:42", "description": "Orders confirmed flowing; incident closed"}
+  ],
+  "rootCauses": ["Typo in the config template set db.pool.max to 0 instead of 40"],
+  "contributingFactors": [
+    "No validation of the config template in CI",
+    "Canary stage skipped for config-only changes, so the change reached 100% of pods at once"
+  ],
+  "resolution": "Rolled back checkout-api config to v4.11.",
+  "actionItems": [
+    {"description": "Add schema validation for checkout config in CI", "owner": "platform team", "priority": "HIGH"},
+    {"description": "Check whether any orders were double charged during retries", "owner": "payments team", "priority": "HIGH"},
+    {"description": "Run config-only changes through the canary stage (suggested)", "owner": null, "priority": "MEDIUM"}
+  ],
+  "openQuestions": ["How many orders were lost or retried during the outage?"]
+}

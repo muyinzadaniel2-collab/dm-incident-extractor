@@ -1,0 +1,27 @@
+{
+  "title": "Slow product search for EU users after Redis memory limit reduced",
+  "summary": "During a maintenance window the EU Redis search cache memory limit was lowered from 16GB to 2GB, collapsing the hit rate and overloading Elasticsearch. EU users saw 8-10s search latency for about 70 minutes; category browsing still worked. Restoring the limit resolved it.",
+  "severity": "SEV3",
+  "severityRationale": "Search was degraded for a subset of users (mostly EU) and category browsing was a usable workaround.",
+  "impact": "Product search took 8-10s per query for mostly EU users from about 09:40 to 10:50 UTC.",
+  "affectedSystems": ["product search", "EU Redis search cache cluster", "Elasticsearch"],
+  "detection": "Customer support tickets about slow search; Elasticsearch CPU alert fired later at 10:05.",
+  "timeline": [
+    {"time": "09:30", "description": "Maintenance window; EU Redis maxmemory changed to 2GB"},
+    {"time": "09:40 UTC", "description": "Support began receiving tickets about slow search"},
+    {"time": "10:05", "description": "Elasticsearch CPU alert fired"},
+    {"time": "10:20", "description": "Redis memory limit restored to 16GB"},
+    {"time": "10:50", "description": "Cache hit rate above 90%, latency normal"}
+  ],
+  "rootCauses": ["EU Redis cache maxmemory was reduced from 16GB to 2GB during maintenance, causing heavy eviction"],
+  "contributingFactors": [
+    "No alert on cache hit rate",
+    "Redis maintenance changes bypassed change review"
+  ],
+  "resolution": "Restored the Redis memory limit to 16GB; hit rate and latency recovered by 10:50.",
+  "actionItems": [
+    {"description": "Add an alert on search cache hit rate", "owner": null, "priority": "HIGH"},
+    {"description": "Route Redis maintenance changes through change review", "owner": null, "priority": "MEDIUM"}
+  ],
+  "openQuestions": ["Who owns the follow-up items?", "What share of users were affected outside the EU?"]
+}

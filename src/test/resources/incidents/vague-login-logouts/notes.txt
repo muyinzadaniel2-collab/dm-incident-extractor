@@ -1,0 +1,1 @@
+login was acting weird last night?? a few people in the team channel said they got logged out. bob restarted auth-service and it seemed fine after. not sure what happened, no idea how many users. need to look at logs

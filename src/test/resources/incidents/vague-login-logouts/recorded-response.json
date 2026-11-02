@@ -1,0 +1,20 @@
+{
+  "title": "Unexpected user logouts resolved by restarting auth-service",
+  "summary": "Several team members reported being logged out last night. Bob restarted auth-service and the issue appeared to stop. The cause and scope are not yet known.",
+  "severity": "UNKNOWN",
+  "severityRationale": "The notes do not say how many users were affected or for how long.",
+  "impact": "Some users were logged out; the number affected is unknown.",
+  "affectedSystems": ["auth-service"],
+  "detection": "Reports from people in the team channel.",
+  "timeline": [
+    {"time": null, "description": "Team members reported being logged out"},
+    {"time": null, "description": "Bob restarted auth-service; behaviour returned to normal"}
+  ],
+  "rootCauses": [],
+  "contributingFactors": [],
+  "resolution": "auth-service was restarted.",
+  "actionItems": [
+    {"description": "Review auth-service logs to find the cause of the logouts", "owner": null, "priority": "HIGH"}
+  ],
+  "openQuestions": ["What caused the logouts?", "How many users were affected?", "When did it start and stop?"]
+}

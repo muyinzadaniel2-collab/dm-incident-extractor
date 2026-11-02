@@ -1,0 +1,10 @@
+{
+  "severity": ["SEV1"],
+  "affectedSystems": ["checkout"],
+  "detection": ["pagerduty|alert"],
+  "rootCauses": ["pool"],
+  "contributingFactors": ["canary|validation"],
+  "resolution": ["roll|revert|v4.11"],
+  "actionItems": ["validat", "double charge|double-charge"],
+  "minTimelineEvents": 5
+}

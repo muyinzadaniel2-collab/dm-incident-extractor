@@ -1,0 +1,9 @@
+{
+  "severity": ["SEV2", "SEV3"],
+  "affectedSystems": ["search|elasticsearch", "redis|cache"],
+  "detection": ["support|ticket"],
+  "rootCauses": ["maxmemory|memory|evict"],
+  "resolution": ["16"],
+  "actionItems": ["hit rate", "review"],
+  "minTimelineEvents": 4
+}

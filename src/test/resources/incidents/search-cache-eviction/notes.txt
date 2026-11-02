@@ -1,0 +1,11 @@
+Search incident write-up (draft) - Tuesday
+
+Around 09:40 UTC support started getting tickets that product search was really slow, 8-10s per query. Not everyone - mostly EU users. Browsing categories still worked fine so people could find stuff that way.
+
+Root cause: the EU redis cache cluster for search results started evicting heavily after someone changed maxmemory during the 09:30 maintenance window to 2GB instead of 16GB. Hit rate dropped from ~95% to ~10% and everything went to elasticsearch which couldn't keep up.
+
+We didn't have an alert on cache hit rate, only on ES CPU, which fired at 10:05.
+
+10:20 restored memory limit to 16GB. 10:50 hit rate back above 90%, latency normal.
+
+TODO: alert on cache hit rate. Also maintenance changes to redis should go through change review like everything else.
